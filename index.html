@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matheus Vasconcelos Advocacia | Advogado do Consumidor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96B;
+    --gold-dim: rgba(201,168,76,0.15);
+    --black: #0A0A08;
+    --dark: #111110;
+    --mid: #1C1C1A;
+    --surface: #222220;
+    --text: #E8E4DC;
+    --muted: #888880;
+    --line: rgba(201,168,76,0.2);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.25s ease, opacity 0.3s;
+    opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 28px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(10,10,8,0.98), transparent);
+    transition: background 0.4s;
+  }
+  nav.scrolled { background: rgba(10,10,8,0.97); }
+
+  .nav-logo {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    line-height: 1.6;
+  }
+  .nav-logo span { display: block; color: var(--muted); font-size: 9px; letter-spacing: 0.3em; }
+
+  .nav-links { display: flex; gap: 44px; list-style: none; }
+  .nav-links a {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--black); background: var(--gold);
+    padding: 12px 24px; text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(201,168,76,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: 
+      linear-gradient(var(--gold) 1px, transparent 1px),
+      linear-gradient(90deg, var(--gold) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .hero-left {
+    padding: 180px 60px 100px;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 1;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 32px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease 0.3s forwards;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--gold);
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 15px; line-height: 1.8; color: var(--muted);
+    max-width: 420px; margin-bottom: 56px;
+    opacity: 0; animation: fadeUp 1.2s ease 0.55s forwards;
+  }
+
+  .hero-actions {
+    display: flex; gap: 20px; align-items: center;
+    opacity: 0; animation: fadeUp 1.2s ease 0.75s forwards;
+  }
+
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 18px 40px; text-decoration: none;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    font-weight: 500; transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-ghost {
+    color: var(--text); text-decoration: none;
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+    transition: color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--gold); }
+  .btn-ghost span {
+    width: 40px; height: 1px; background: currentColor;
+    transition: width 0.3s;
+  }
+  .btn-ghost:hover span { width: 60px; }
+
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1;
+    padding: 120px 60px 60px;
+  }
+
+  .hero-visual {
+    position: relative; width: 100%; max-width: 480px;
+  }
+
+  .hero-card {
+    background: var(--mid);
+    border: 1px solid var(--line);
+    padding: 60px 50px;
+    position: relative;
+    opacity: 0; animation: fadeLeft 1.2s ease 0.5s forwards;
+  }
+  .hero-card::before {
+    content: ''; position: absolute; top: -1px; left: 50px;
+    width: 80px; height: 3px; background: var(--gold);
+  }
+
+  .hero-card-seal {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 80px; font-weight: 300; color: var(--gold-dim);
+    line-height: 1; margin-bottom: 24px; letter-spacing: -0.05em;
+  }
+
+  .hero-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 400; margin-bottom: 8px;
+    color: var(--text);
+  }
+  .hero-card p {
+    font-size: 12px; letter-spacing: 0.15em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 32px;
+  }
+
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--line); margin-top: 40px;
+  }
+  .stat-item {
+    background: var(--mid); padding: 24px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; font-weight: 300; color: var(--gold);
+    line-height: 1; margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 10px; letter-spacing: 0.15em; color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .stars-display {
+    display: flex; gap: 4px; margin-bottom: 4px;
+  }
+  .star { color: var(--gold); font-size: 16px; }
+
+  /* DIVIDER */
+  .section-divider {
+    height: 1px; background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 0 60px;
+  }
+
+  /* AREAS */
+  .areas {
+    padding: 140px 60px;
+    position: relative;
+  }
+
+  .section-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 80px;
+  }
+
+  .section-tag {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .section-tag::before { content: ''; width: 30px; height: 1px; background: var(--gold); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300; line-height: 1.1;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .section-desc {
+    max-width: 360px; padding-top: 20px;
+    font-size: 14px; line-height: 1.8; color: var(--muted);
+    align-self: flex-end;
+  }
+
+  .areas-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--line);
+  }
+
+  .area-card {
+    background: var(--dark);
+    padding: 56px 44px;
+    position: relative; overflow: hidden;
+    transition: background 0.4s;
+    cursor: none;
+  }
+  .area-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .area-card:hover { background: var(--mid); }
+  .area-card:hover::before { transform: scaleX(1); }
+
+  .area-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px; font-weight: 300;
+    color: rgba(201,168,76,0.12);
+    position: absolute; top: 24px; right: 32px;
+    line-height: 1; transition: color 0.4s;
+  }
+  .area-card:hover .area-num { color: rgba(201,168,76,0.22); }
+
+  .area-icon { font-size: 28px; margin-bottom: 28px; }
+
+  .area-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 400; margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .area-desc { font-size: 13px; line-height: 1.8; color: var(--muted); }
+
+  .area-link {
+    display: inline-flex; align-items: center; gap: 10px; margin-top: 32px;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    transition: gap 0.3s;
+  }
+  .area-link:hover { gap: 18px; }
+
+  /* ABOUT */
+  .about {
+    padding: 140px 60px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+
+  .about::before {
+    content: '';
+    position: absolute; left: -200px; top: -200px;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .about-visual { position: relative; }
+
+  .about-frame {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 60px;
+    position: relative;
+  }
+  .about-frame::after {
+    content: '';
+    position: absolute; top: 20px; left: 20px; right: -20px; bottom: -20px;
+    border: 1px solid var(--line);
+    z-index: -1;
+  }
+
+  .about-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-style: italic; font-weight: 300;
+    line-height: 1.6; color: var(--text);
+    margin-bottom: 32px;
+  }
+  .about-quote::before { content: '\201C'; color: var(--gold); font-size: 60px; line-height: 0; vertical-align: -0.4em; margin-right: 8px; }
+
+  .about-attr {
+    font-size: 11px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase;
+    border-top: 1px solid var(--line); padding-top: 24px;
+  }
+
+  .about-content { position: relative; z-index: 1; }
+
+  .about-body {
+    font-size: 15px; line-height: 1.9; color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .about-values {
+    display: flex; flex-direction: column; gap: 16px; margin-top: 48px;
+  }
+
+  .value-item {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 20px; border-left: 2px solid var(--line);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .value-item:hover { border-color: var(--gold); background: var(--gold-dim); }
+
+  .value-icon { color: var(--gold); font-size: 20px; flex-shrink: 0; padding-top: 2px; }
+  .value-text h4 { font-size: 13px; letter-spacing: 0.1em; margin-bottom: 4px; color: var(--text); }
+  .value-text p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* DEPOIMENTOS */
+  .testimonials {
+    padding: 140px 60px;
+    position: relative; overflow: hidden;
+  }
+
+  .testimonials::before {
+    content: 'AVALIAÇÕES';
+    position: absolute; right: -60px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Syncopate', sans-serif;
+    font-size: 80px; letter-spacing: 0.1em;
+    color: rgba(201,168,76,0.03);
+    white-space: nowrap; pointer-events: none;
+  }
+
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--line); margin-top: 80px;
+  }
+
+  .testimonial-card {
+    background: var(--dark); padding: 48px 40px;
+    position: relative; transition: background 0.3s;
+  }
+  .testimonial-card:hover { background: var(--mid); }
+
+  .t-stars { display: flex; gap: 3px; margin-bottom: 24px; }
+  .t-star { color: var(--gold); font-size: 14px; }
+
+  .t-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 300; font-style: italic;
+    line-height: 1.7; color: var(--text); margin-bottom: 32px;
+  }
+  .t-text::before { content: '\201C'; color: var(--gold); }
+  .t-text::after { content: '\201D'; color: var(--gold); }
+
+  .t-author {
+    font-size: 11px; letter-spacing: 0.18em; color: var(--gold);
+    text-transform: uppercase; border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+
+  .rating-banner {
+    background: var(--mid); border: 1px solid var(--line);
+    padding: 48px 60px; margin-top: 2px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 40px;
+  }
+
+  .rating-big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 100px; font-weight: 300; color: var(--gold);
+    line-height: 1;
+  }
+  .rating-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; margin-bottom: 8px;
+  }
+  .rating-info p { font-size: 13px; color: var(--muted); }
+  .rating-stars-big { font-size: 24px; letter-spacing: 4px; color: var(--gold); margin-bottom: 12px; }
+
+  /* CONTATO */
+  .contact {
+    padding: 140px 60px;
+    background: var(--dark);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: start;
+  }
+
+  .contact-info { }
+
+  .contact-detail {
+    display: flex; flex-direction: column; gap: 40px; margin-top: 60px;
+  }
+
+  .detail-item {
+    display: flex; gap: 24px; align-items: flex-start;
+  }
+
+  .detail-icon {
+    width: 48px; height: 48px;
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 18px; flex-shrink: 0;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .detail-item:hover .detail-icon { background: var(--gold-dim); border-color: var(--gold); }
+
+  .detail-text h4 {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .detail-text p, .detail-text a {
+    font-size: 15px; color: var(--text); text-decoration: none;
+    transition: color 0.3s; line-height: 1.6;
+  }
+  .detail-text a:hover { color: var(--gold); }
+
+  .contact-form-wrap {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 60px; position: relative;
+  }
+  .contact-form-wrap::before {
+    content: '';
+    position: absolute; top: -1px; left: 40px;
+    width: 60px; height: 3px; background: var(--gold);
+  }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 300; margin-bottom: 40px;
+  }
+
+  .form-group { margin-bottom: 24px; }
+  .form-group label {
+    display: block; font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; background: var(--mid);
+    border: 1px solid var(--line); border-bottom-color: rgba(201,168,76,0.4);
+    color: var(--text); padding: 14px 16px; font-size: 14px;
+    font-family: 'DM Sans', sans-serif; font-weight: 300;
+    outline: none; transition: border-color 0.3s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-group select { cursor: pointer; }
+  .form-group select option { background: var(--mid); }
+
+  .form-submit {
+    width: 100%; background: var(--gold); color: var(--black);
+    border: none; padding: 18px;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    cursor: none; transition: all 0.3s; font-weight: 700;
+  }
+  .form-submit:hover { background: var(--gold-light); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--line);
+    padding: 80px 60px 40px;
+  }
+
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 80px; margin-bottom: 60px;
+  }
+
+  .footer-logo {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 13px; letter-spacing: 0.2em;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .footer-logo span { display: block; font-size: 10px; letter-spacing: 0.25em; color: var(--muted); margin-top: 4px; }
+
+  .footer-desc { font-size: 13px; line-height: 1.8; color: var(--muted); max-width: 300px; }
+
+  .footer-col h4 {
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 12px; }
+  .footer-col ul li a {
+    font-size: 13px; color: var(--muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-col ul li a:hover { color: var(--text); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--line); padding-top: 32px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 11px; color: var(--muted); }
+  .footer-oab { font-size: 11px; color: var(--gold); letter-spacing: 0.1em; }
+
+  /* WHATSAPP FLOAT */
+  .whatsapp-float {
+    position: fixed; bottom: 40px; right: 40px; z-index: 200;
+    width: 60px; height: 60px;
+    background: #25D366; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; box-shadow: 0 8px 32px rgba(37,211,102,0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: pulse-green 2.5s ease infinite;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(37,211,102,0.6); }
+  .whatsapp-float svg { width: 28px; height: 28px; fill: white; }
+
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 8px 32px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 8px 48px rgba(37,211,102,0.7); }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* MOBILE HAMBURGER */
+  .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .menu-toggle span { display: block; width: 28px; height: 1px; background: var(--text); transition: 0.3s; }
+
+  @media (max-width: 900px) {
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .menu-toggle { display: flex; }
+
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 120px 24px 60px; }
+    .hero-right { padding: 0 24px 80px; }
+
+    .areas { padding: 80px 24px; }
+    .section-header { flex-direction: column; gap: 20px; }
+    .section-desc { padding-top: 0; }
+    .areas-grid { grid-template-columns: 1fr; }
+
+    .about { grid-template-columns: 1fr; padding: 80px 24px; gap: 60px; }
+
+    .testimonials { padding: 80px 24px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .rating-banner { flex-direction: column; text-align: center; padding: 40px 24px; }
+
+    .contact { grid-template-columns: 1fr; padding: 80px 24px; gap: 60px; }
+
+    footer { padding: 60px 24px 32px; }
+    .footer-top { grid-template-columns: 1fr; gap: 40px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+
+    .section-divider { margin: 0 24px; }
+    .whatsapp-float { bottom: 24px; right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    Matheus Vasconcelos
+    <span>Advocacia</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#areas">Áreas</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#avaliacoes">Avaliações</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5581998444071" class="nav-cta" target="_blank">Consulta Gratuita</a>
+  <div class="menu-toggle" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">Recife, Pernambuco · Atendimento Nacional</div>
+    <h1 class="hero-title">
+      Defesa jurídica<br>
+      <em>estratégica</em><br>
+      para o consumidor
+    </h1>
+    <p class="hero-desc">
+      Especialistas em Direito do Consumidor e Direito Bancário. 
+      Atuamos com rigor, transparência e comprometimento para garantir 
+      seus direitos com excelência.
+    </p>
+    <div class="hero-actions">
+      <a href="https://wa.me/5581998444071" class="btn-primary" target="_blank">Fale Conosco</a>
+      <a href="#areas" class="btn-ghost"><span></span>Ver Atuação</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="hero-card-seal">MV</div>
+        <h3>Matheus Vasconcelos</h3>
+        <p>OAB/PE · Advogado do Consumidor</p>
+        <div class="stars-display">
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span><span class="star">★</span>
+          <span class="star">★</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);">5,0 no Google · 119 avaliações</div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-num">119</div>
+            <div class="stat-label">Avaliações</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">5,0</div>
+            <div class="stat-label">Nota Média</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">24h</div>
+            <div class="stat-label">Atendimento</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">⚖</div>
+            <div class="stat-label">Especializado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- AREAS -->
+<section class="areas" id="areas">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">Atuação Jurídica</div>
+      <h2 class="section-title">Áreas de<br><em>Especialização</em></h2>
+    </div>
+    <p class="section-desc">
+      Assistência jurídica especializada com foco total nas necessidades 
+      e interesses dos nossos clientes. Atuação nacional.
+    </p>
+  </div>
+
+  <div class="areas-grid">
+    <div class="area-card reveal">
+      <div class="area-num">01</div>
+      <div class="area-icon">⚖️</div>
+      <h3 class="area-name">Direito do Consumidor</h3>
+      <p class="area-desc">Defesa estratégica nas relações de consumo. Cobranças indevidas, produtos defeituosos, propaganda enganosa e demandas consumeristas em geral.</p>
+      <a href="https://wa.me/5581998444071" class="area-link" target="_blank">Consultar →</a>
+    </div>
+
+    <div class="area-card reveal" style="transition-delay:0.1s">
+      <div class="area-num">02</div>
+      <div class="area-icon">🏦</div>
+      <h3 class="area-name">Direito Bancário</h3>
+      <p class="area-desc">Revisão de contratos, juros abusivos, negativação indevida, portabilidade de crédito e renegociações junto a instituições financeiras.</p>
+      <a href="https://wa.me/5581998444071" class="area-link" target="_blank">Consultar →</a>
+    </div>
+
+    <div class="area-card reveal" style="transition-delay:0.2s">
+      <div class="area-num">03</div>
+      <div class="area-icon">✈️</div>
+      <h3 class="area-name">Direito Aéreo</h3>
+      <p class="area-desc">Expert em defesa estratégica de passageiros. Cancelamentos, overbooking, extravio de bagagem e indenizações por danos causados por companhias aéreas.</p>
+      <a href="https://wa.me/5581998444071" class="area-link" target="_blank">Consultar →</a>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- SOBRE -->
+<section class="about" id="sobre">
+  <div class="about-visual reveal">
+    <div class="about-frame">
+      <p class="about-quote">
+        Matheus Vasconcelos Advocacia é um escritório dedicado a fornecer 
+        assistência jurídica especializada com foco nas necessidades e 
+        interesses dos nossos clientes.
+      </p>
+      <div class="about-attr">Matheus Vasconcelos · OAB/PE</div>
+    </div>
+  </div>
+
+  <div class="about-content reveal">
+    <div class="section-tag">Sobre o Escritório</div>
+    <h2 class="section-title" style="margin-bottom:32px;">Compromisso com<br><em>seus direitos</em></h2>
+
+    <p class="about-body">
+      Com sede em Recife/PE, o escritório Matheus Vasconcelos Advocacia tem se consolidado 
+      como referência em Direito do Consumidor e Bancário. Nossa abordagem jurídica é 
+      centrada em estratégia, transparência e resultados concretos.
+    </p>
+    <p class="about-body">
+      Atendemos clientes em todo o território nacional, com disponibilidade 24 horas 
+      para garantir que você tenha suporte jurídico qualificado sempre que precisar.
+    </p>
+
+    <div class="about-values">
+      <div class="value-item">
+        <span class="value-icon">◆</span>
+        <div class="value-text">
+          <h4>Transparência Total</h4>
+          <p>Comunicação clara e direta. Você sempre saberá o status do seu caso.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <span class="value-icon">◆</span>
+        <div class="value-text">
+          <h4>Estratégia Personalizada</h4>
+          <p>Cada caso recebe atenção individualizada e estratégia jurídica sob medida.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <span class="value-icon">◆</span>
+        <div class="value-text">
+          <h4>Resultados Comprovados</h4>
+          <p>119 avaliações 5 estrelas no Google refletem nosso comprometimento.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- AVALIAÇÕES -->
+<section class="testimonials" id="avaliacoes">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-tag">Avaliações Google</div>
+      <h2 class="section-title">O que dizem<br><em>nossos clientes</em></h2>
+    </div>
+    <p class="section-desc">
+      119 avaliações com nota máxima. A confiança dos nossos clientes 
+      é o maior reconhecimento do nosso trabalho.
+    </p>
+  </div>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="t-stars">
+        <span class="t-star">★</span><span class="t-star">★</span>
+        <span class="t-star">★</span><span class="t-star">★</span>
+        <span class="t-star">★</span>
+      </div>
+      <p class="t-text">Um profissional que entrega confiança e solidez no trabalho que desenvolve.</p>
+      <div class="t-author">Cliente Verificado · Google</div>
+    </div>
+
+    <div class="testimonial-card reveal" style="transition-delay:0.1s">
+      <div class="t-stars">
+        <span class="t-star">★</span><span class="t-star">★</span>
+        <span class="t-star">★</span><span class="t-star">★</span>
+        <span class="t-star">★</span>
+      </div>
+      <p class="t-text">Ótimo atendimento, deixa tudo claro para o cliente entender. Transparente e comprometido.</p>
+      <div class="t-author">Cliente Verificado · Google</div>
+    </div>
+
+    <div class="testimonial-card reveal" style="transition-delay:0.2s">
+      <div class="t-stars">
+        <span class="t-star">★</span><span class="t-star">★</span>
+        <span class="t-star">★</span><span class="t-star">★</span>
+        <span class="t-star">★</span>
+      </div>
+      <p class="t-text">Tive minha moto bloqueada num processo de execução em que eu não fazia parte. O Dr. Matheus resolveu tudo com agilidade e competência.</p>
+      <div class="t-author">Cliente Verificado · Google</div>
+    </div>
+  </div>
+
+  <div class="rating-banner reveal">
+    <div class="rating-big">5,0</div>
+    <div class="rating-info">
+      <div class="rating-stars-big">★★★★★</div>
+      <h3>Avaliação máxima no Google</h3>
+      <p>119 avaliações de clientes reais e verificados</p>
+    </div>
+    <a href="https://wa.me/5581998444071" class="btn-primary" target="_blank" style="white-space:nowrap;">Agendar Consulta Gratuita</a>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTATO -->
+<section class="contact" id="contato">
+  <div class="contact-info">
+    <div class="section-tag">Fale Conosco</div>
+    <h2 class="section-title" style="margin-bottom:0;">Entre em<br><em>contato</em></h2>
+
+    <div class="contact-detail">
+      <div class="detail-item reveal">
+        <div class="detail-icon">📍</div>
+        <div class="detail-text">
+          <h4>Endereço</h4>
+          <p>R. José Carvalheira, 100<br>Tamarineira, Recife – PE<br>CEP: 52051-060</p>
+        </div>
+      </div>
+
+      <div class="detail-item reveal">
+        <div class="detail-icon">📞</div>
+        <div class="detail-text">
+          <h4>Telefone / WhatsApp</h4>
+          <a href="https://wa.me/5581998444071" target="_blank">(81) 99844-4071</a>
+        </div>
+      </div>
+
+      <div class="detail-item reveal">
+        <div class="detail-icon">🕐</div>
+        <div class="detail-text">
+          <h4>Horário de Atendimento</h4>
+          <p>Aberto 24 horas<br>Atendimento nacional</p>
+        </div>
+      </div>
+
+      <div class="detail-item reveal">
+        <div class="detail-icon">📸</div>
+        <div class="detail-text">
+          <h4>Instagram</h4>
+          <a href="https://instagram.com/matheusvasconcelos.adv" target="_blank">@matheusvasconcelos.adv</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form-wrap reveal">
+    <h3 class="form-title">Solicite sua<br>consulta gratuita</h3>
+    <form onsubmit="submitForm(event)">
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" placeholder="Seu nome" required>
+      </div>
+      <div class="form-group">
+        <label>Telefone / WhatsApp</label>
+        <input type="tel" placeholder="(81) 9 9999-9999" required>
+      </div>
+      <div class="form-group">
+        <label>Área de Interesse</label>
+        <select>
+          <option>Direito do Consumidor</option>
+          <option>Direito Bancário</option>
+          <option>Direito Aéreo</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Descreva seu caso</label>
+        <textarea placeholder="Conte brevemente sobre sua situação..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Enviar pelo WhatsApp →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">
+        Matheus Vasconcelos
+        <span>Advocacia · OAB/PE</span>
+      </div>
+      <p class="footer-desc">
+        Escritório especializado em Direito do Consumidor e Bancário. 
+        Comprometidos com a defesa dos seus direitos com rigor e transparência.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Áreas</h4>
+      <ul>
+        <li><a href="#areas">Direito do Consumidor</a></li>
+        <li><a href="#areas">Direito Bancário</a></li>
+        <li><a href="#areas">Direito Aéreo</a></li>
+        <li><a href="#areas">Demandas Consumeristas</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="https://wa.me/5581998444071" target="_blank">(81) 99844-4071</a></li>
+        <li><a href="https://instagram.com/matheusvasconcelos.adv" target="_blank">Instagram</a></li>
+        <li><a href="#contato">Recife, PE</a></li>
+        <li><a href="#contato">Atendimento 24h</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 Matheus Vasconcelos Advocacia. Todos os direitos reservados.</p>
+    <p class="footer-oab">OAB/PE · Recife, Pernambuco</p>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5581998444071" class="whatsapp-float" target="_blank" title="Fale pelo WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 16}px, ${ry - 16}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form submit → WhatsApp
+  function submitForm(e) {
+    e.preventDefault();
+    const form = e.target;
+    const nome = form.querySelector('input[type="text"]').value;
+    const tel = form.querySelector('input[type="tel"]').value;
+    const area = form.querySelector('select').value;
+    const msg = form.querySelector('textarea').value;
+    const text = encodeURIComponent(
+      `Olá! Meu nome é ${nome}.\n` +
+      `Telefone: ${tel}\n` +
+      `Área: ${area}\n` +
+      `Caso: ${msg}\n\n` +
+      `Gostaria de agendar uma consulta.`
+    );
+    window.open(`https://wa.me/5581998444071?text=${text}`, '_blank');
+  }
+
+  // Mobile menu
+  function toggleMenu() {
+    const links = document.querySelector('.nav-links');
+    const cta = document.querySelector('.nav-cta');
+    if (links.style.display === 'flex') {
+      links.style.display = 'none';
+      if(cta) cta.style.display = 'none';
+    } else {
+      links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:80px;left:0;right:0;background:rgba(10,10,8,0.98);padding:32px 24px;gap:28px;z-index:99;';
+      if(cta) { cta.style.display = 'block'; }
+    }
+  }
+</script>
+</body>
+</html>
